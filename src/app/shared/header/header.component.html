@@ -1,0 +1,11 @@
+<mat-toolbar>
+  <span>GitHub Finder</span>
+  <span class="spacer"></span>
+  <mat-form-field appearance="outline">
+    <mat-label>Buscar usuário</mat-label>
+    <input matInput [(ngModel)]="username" (keyup.enter)="searchUser()">
+  </mat-form-field>
+  <button mat-icon-button color="accent" (click)="searchUser()">
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-toolbar>
