@@ -1,4 +1,4 @@
-export interface IUser {
+export interface IGithubUser {
   login: string;
   id: number;
   node_id: string;

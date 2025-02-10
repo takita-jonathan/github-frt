@@ -1,0 +1,15 @@
+<div class="user-list__wrapper">
+  <div class="user-list__container">
+    <ghf-user-list-item *ngFor="let user of users$ | async"
+                        [login]="user.login"
+                        [avatar_url]="user.avatar_url">
+    </ghf-user-list-item>
+  </div>
+
+  <mat-paginator
+    [length]="totalUsers"
+    [pageSize]="10"
+    [pageSizeOptions]="[10, 25, 50, 100]"
+    (page)="onPageChange($event)">
+  </mat-paginator>
+</div>

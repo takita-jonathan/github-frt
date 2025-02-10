@@ -1,0 +1,21 @@
+.user-list__wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 64px);
+  justify-content: space-between;
+}
+
+.user-list__container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  justify-content: center;
+}
+
+mat-paginator {
+  width: 100%;
+  align-self: center;
+  margin-top: auto;
+  height: 64px;
+}

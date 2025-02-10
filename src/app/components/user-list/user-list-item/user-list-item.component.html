@@ -1,0 +1,14 @@
+<mat-card class="user-profile" (click)="goToProfile()">
+  <mat-card-header>
+    <mat-card-title-group>
+      <img [src]="avatar_url" [alt]="login" class="user-profile__avatar" />
+      <mat-card-title>{{ login }}</mat-card-title>
+    </mat-card-title-group>
+  </mat-card-header>
+
+  <mat-card-actions align="end">
+    <a mat-button color="primary" [href]="'https://github.com/' + login" target="_blank">
+      <mat-icon>open_in_new</mat-icon> Ver no GitHub
+    </a>
+  </mat-card-actions>
+</mat-card>

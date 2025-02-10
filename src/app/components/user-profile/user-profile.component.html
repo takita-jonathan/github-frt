@@ -1,13 +1,21 @@
-<mat-card *ngIf="user" class="user-profile">
-  <mat-card-header>
-    <mat-card-title-group>
-      <img [src]="user.avatar_url" [alt]="user.name" class="user-profile__avatar" />
-      <mat-card-title>{{ user.name }}</mat-card-title>
-      <mat-card-subtitle>{{ user.bio || 'Sem biografia disponível' }}</mat-card-subtitle>
-    </mat-card-title-group>
-  </mat-card-header>
+<div class="user-profile__container" *ngIf="user$ | async as user">
 
-  <mat-card-content>
-    <p><mat-icon>folder</mat-icon> Repositórios públicos: {{ user.public_repos }}</p>
-  </mat-card-content>
-</mat-card>
+  <!-- Seção principal: Avatar e informações -->
+  <mat-card class="user-profile__header">
+    <div class="user-profile__info">
+      <img [src]="user.avatar_url" [alt]="user.login" class="user-profile__avatar" />
+      <div class="user-profile__details">
+        <h1>{{ user.name || user.login }}</h1>
+        <h2>{{ user.login }}</h2>
+        <p class="user-profile__bio">{{ user.bio || 'Este usuário ainda não adicionou uma biografia.' }}</p>
+
+        <div class="user-profile__stats">
+          <span>👥 {{ user.followers }} seguidores</span>
+          <span>📍 {{ user.location || 'Localização não informada' }}</span>
+        </div>
+      </div>
+    </div>
+
+  </mat-card>
+
+</div>
