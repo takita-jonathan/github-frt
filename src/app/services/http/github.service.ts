@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {finalize, from, Observable, of, switchMap, tap} from 'rxjs';
 import {IGithubUser} from '../../interfaces/github-user.interface';
@@ -23,7 +23,7 @@ export class GithubService {
     this.loadingService.show();
     const cacheKey = `user_${username}`;
 
-    return from(this.cacheService.getData<IGithubUser>(cacheKey))
+    return this.cacheService.getData<IGithubUser>(cacheKey)
       .pipe(
         switchMap(cachedUser => {
           if (cachedUser) {
@@ -32,7 +32,7 @@ export class GithubService {
             return this.http.get<IGithubUser>(
               `${this.API_URL}/users/${username}`,
             ).pipe(
-              tap(user => this.cacheService.storeData(cacheKey, user).then())
+              tap(user => this.cacheService.storeData(cacheKey, user))
             )
           }
         }),
@@ -45,7 +45,7 @@ export class GithubService {
     const searchQuery = query.trim() ? query : 'repos:>0';
     const cacheKey = `search_${searchQuery}_${page}_${perPage}`;
 
-    return from(this.cacheService.getData<IGithubSearchRes<IGithubUser>>(cacheKey))
+    return this.cacheService.getData<IGithubSearchRes<IGithubUser>>(cacheKey)
       .pipe(
         switchMap(cachedSearchRes => {
           if (cachedSearchRes) {
@@ -66,7 +66,7 @@ export class GithubService {
     this.loadingService.show();
     const cacheKey = `repos_${username}_${page}_${perPage}_${sort}_${direction}`;
 
-    return from(this.cacheService.getData<IGithubSearchRes<IGithubRepo>>(cacheKey))
+    return this.cacheService.getData<IGithubSearchRes<IGithubRepo>>(cacheKey)
       .pipe(
         switchMap(cachedSearchRes => {
           if (cachedSearchRes) {
