@@ -1,4 +1,12 @@
 .user-repositories {
+  height: calc(100vh - 365px);
+
+  &__wrapper {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+  }
+
   &__controls {
     padding: 16px;
 
