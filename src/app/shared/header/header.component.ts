@@ -52,9 +52,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onSearchChange(value: string) {
-    if (value.trim()) {
-      this.searchSubject.next(value);
-    }
+    this.searchSubject.next(value);
   }
 
   ngOnDestroy() {

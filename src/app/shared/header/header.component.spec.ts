@@ -67,12 +67,6 @@ describe('HeaderComponent', () => {
     expect(userServiceSpy.setSearchQuery).toHaveBeenCalledWith('octocat');
   }));
 
-  it('should not call setSearchQuery if search input is empty', fakeAsync(() => {
-    component.onSearchChange('   ');
-    tick(500);
-    expect(userServiceSpy.setSearchQuery).not.toHaveBeenCalled();
-  }));
-
   it('should navigate to home page if current route is not "/"', fakeAsync(() => {
     Object.defineProperty(routerSpy, 'url', { get: () => '/user-profile' });
     component.onSearchChange('octocat');
