@@ -6,8 +6,10 @@ on:
       - main
 
 jobs:
-  build:
+  install_and_test:
     runs-on: ubuntu-latest
+    outputs:
+      node_modules: ${{ steps.cache.outputs.cache-hit }}
 
     steps:
       - name: Checkout code
@@ -18,11 +20,33 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Cache Node modules
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
       - name: Dependencies install
         run: npm install
 
       - name: Run unit tests
         run: npm test
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: install_and_test
+    if: success()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Restore Node modules cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
       - name: Build angular project
         run: npm run build -- --base-href="/${{ github.event.repository.name }}/"

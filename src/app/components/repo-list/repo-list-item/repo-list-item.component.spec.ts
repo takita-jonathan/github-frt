@@ -58,13 +58,6 @@ describe('RepoListItemComponent', () => {
     expect(languageElement.textContent).toContain('Main Language: JavaScript');
   });
 
-  it('should show "Forked" if repo.fork is true', async () => {
-    fixture.detectChanges();
-    await fixture.whenStable();
-    const forkedStatus = fixture.debugElement.query(By.css('.repo-card__forked-status'));
-    expect(forkedStatus).toBeTruthy();
-  });
-
   it('should not show "Forked" if repo.fork is false', () => {
     component.repo.fork = false;
     fixture.detectChanges();

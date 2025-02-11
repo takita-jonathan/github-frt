@@ -71,7 +71,7 @@ describe('GithubService', () => {
       expect(repos.items[0].name).toBe('repo1');
     });
 
-    const req = httpMock.expectOne(`${API_URL}/search/repositories?q=user:octocat&sort=stars&order=desc&page=1&per_page=10`);
+    const req = httpMock.expectOne(`${API_URL}/search/repositories?q=user:octocat+fork:true&sort=stars&order=desc&page=1&per_page=10`);
     expect(req.request.method).toBe('GET');
     req.flush(mockRepos);
   });
