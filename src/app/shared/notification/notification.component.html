@@ -1,4 +1,4 @@
-<div class="notification__container" [ngClass]="data.type">
-  <span>{{ data.message }}</span>
-  <button class="notification__button--close" (click)="closeNotification()">✖</button>
+<div class="notification" [ngClass]="'notification--' + data.type">
+  <span class="notification__message">{{ data.message }}</span>
+  <button class="notification__close" (click)="closeNotification()">✖</button>
 </div>

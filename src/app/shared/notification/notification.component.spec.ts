@@ -34,17 +34,17 @@ describe('NotificationComponent', () => {
   });
 
   it('should display the message correctly', () => {
-    const messageElement = fixture.debugElement.query(By.css('span')).nativeElement;
+    const messageElement = fixture.debugElement.query(By.css('.notification__message')).nativeElement;
     expect(messageElement.textContent).toContain('Teste de mensagem');
   });
 
-  it('must have the correct class based on the notification type', () => {
-    const containerElement = fixture.debugElement.query(By.css('.notification__container')).nativeElement;
-    expect(containerElement.classList).toContain('success');
+  it('should have the correct class based on the notification type', () => {
+    const containerElement = fixture.debugElement.query(By.css('.notification')).nativeElement;
+    expect(containerElement.classList).toContain('notification--success');
   });
 
-  it('you must close the snackbar when clicking the close button', () => {
-    const closeButton = fixture.debugElement.query(By.css('.notification__button--close'));
+  it('should close the snackbar when clicking the close button', () => {
+    const closeButton = fixture.debugElement.query(By.css('.notification__close'));
     closeButton.triggerEventHandler('click', null);
     expect(snackBarRefSpy.dismiss).toHaveBeenCalled();
   });

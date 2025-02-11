@@ -22,6 +22,10 @@ describe('NotificationService', () => {
     snackBarSpy = TestBed.inject(MatSnackBar) as jasmine.SpyObj<MatSnackBar>;
   });
 
+  beforeEach(() => {
+    snackBarSpy.openFromComponent.calls.reset();
+  });
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
@@ -32,7 +36,7 @@ describe('NotificationService', () => {
     expect(snackBarSpy.openFromComponent).toHaveBeenCalledWith(NotificationComponent, {
       duration: 5000,
       data: { message: 'Teste de mensagem', type: 'success' },
-      panelClass: ['snackbar--success'],
+      panelClass: ['notification--success'],
       horizontalPosition: 'center',
       verticalPosition: 'bottom'
     });
@@ -44,7 +48,7 @@ describe('NotificationService', () => {
     expect(snackBarSpy.openFromComponent).toHaveBeenCalledWith(NotificationComponent, {
       duration: 3000,
       data: { message: 'Erro padrão', type: 'error' },
-      panelClass: ['snackbar--error'],
+      panelClass: ['notification--error'],
       horizontalPosition: 'center',
       verticalPosition: 'bottom'
     });
@@ -56,7 +60,7 @@ describe('NotificationService', () => {
     expect(snackBarSpy.openFromComponent).toHaveBeenCalledWith(NotificationComponent, {
       duration: 3000,
       data: { message: 'Mensagem padrão', type: 'warning' },
-      panelClass: ['snackbar--warning'],
+      panelClass: ['notification--warning'],
       horizontalPosition: 'center',
       verticalPosition: 'bottom'
     });

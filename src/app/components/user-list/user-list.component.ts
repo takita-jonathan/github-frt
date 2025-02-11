@@ -1,4 +1,4 @@
-import {Component, OnDestroy, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {GithubService} from '../../services/http/github.service';
 import {UserService} from '../../services/user.service';
 import {BehaviorSubject, combineLatest, map, Observable, Subject, switchMap, takeUntil} from 'rxjs';
@@ -17,7 +17,7 @@ import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/pag
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
-export class UserListComponent implements OnDestroy {
+export class UserListComponent implements OnInit, OnDestroy {
 
   users$: Observable<IGithubUser[]> = new BehaviorSubject<IGithubUser[]>([]);
   totalUsers: number = 0;
@@ -30,7 +30,9 @@ export class UserListComponent implements OnDestroy {
   constructor(
     private githubService: GithubService,
     private userService: UserService,
-  ) {
+  ) { }
+
+  ngOnInit() {
     this.users$ = combineLatest([this.userService.search$, this.pageSubject]).pipe(
       switchMap(([query, { page, pageSize }]) => {
         return this.githubService.searchUsers(query, page, pageSize).pipe(

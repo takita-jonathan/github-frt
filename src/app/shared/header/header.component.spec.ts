@@ -8,24 +8,29 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {By} from '@angular/platform-browser';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {GithubService} from '../../services/http/github.service';
-import {of} from 'rxjs';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   let userServiceSpy: jasmine.SpyObj<UserService>;
-  let githubServiceSpy: jasmine.SpyObj<GithubService>;
+  let routerSpy: jasmine.SpyObj<Router>;
 
+  const mockActivatedRoute = {
+    snapshot: {
+      paramMap: {
+        get: (key: string) => 'mock-value',
+      },
+    },
+  };
 
   beforeEach(async () => {
-    userServiceSpy = jasmine.createSpyObj('UserService', ['setUsername']);
-    githubServiceSpy = jasmine.createSpyObj('GithubService', ['searchUsers']);
-
+    userServiceSpy = jasmine.createSpyObj('UserService', ['setSearchQuery']);
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    routerSpy.navigate.and.returnValue(Promise.resolve(true))
 
     await TestBed.configureTestingModule({
       imports: [
@@ -36,14 +41,14 @@ describe('HeaderComponent', () => {
         MatInputModule,
         MatIconModule,
         MatButtonModule,
-        MatAutocompleteModule,
+        MatAutocompleteModule
       ],
       providers: [
         { provide: UserService, useValue: userServiceSpy },
-        { provide: GithubService, useValue: githubServiceSpy },
+        { provide: Router, useValue: routerSpy },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
         provideAnimationsAsync()
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+      ]
     })
       .compileComponents();
 
@@ -56,56 +61,52 @@ describe('HeaderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should not call setUsername if username is empty', () => {
-    component.username = '   ';
-    component.searchUser();
-    expect(userServiceSpy.setUsername).not.toHaveBeenCalled();
-  });
+  it('should call setSearchQuery with correct value after debounce', fakeAsync(() => {
+    component.onSearchChange('octocat');
+    tick(500);
+    expect(userServiceSpy.setSearchQuery).toHaveBeenCalledWith('octocat');
+  }));
 
-  it('must call setUsername with the correct value', () => {
-    component.username = 'octocat';
-    component.searchUser();
-    expect(userServiceSpy.setUsername).toHaveBeenCalledWith('octocat');
-  });
+  it('should not call setSearchQuery if search input is empty', fakeAsync(() => {
+    component.onSearchChange('   ');
+    tick(500);
+    expect(userServiceSpy.setSearchQuery).not.toHaveBeenCalled();
+  }));
 
-  it('must call searchUser when pressing enter in input', () => {
+  it('should navigate to home page if current route is not "/"', fakeAsync(() => {
+    Object.defineProperty(routerSpy, 'url', { get: () => '/user-profile' });
+    component.onSearchChange('octocat');
+    tick(500);
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
+  }));
+
+  it('should not navigate if already on home page', fakeAsync(() => {
+    Object.defineProperty(routerSpy, 'url', { get: () => '/' });
+    component.onSearchChange('octocat');
+    tick(500);
+    expect(routerSpy.navigate).not.toHaveBeenCalled();
+  }));
+
+  it('should update search term when user types in input', fakeAsync(() => {
     const inputDebugElement = fixture.debugElement.query(By.css('input'));
     inputDebugElement.nativeElement.value = 'octocat';
     inputDebugElement.nativeElement.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    inputDebugElement.triggerEventHandler('keyup.enter', {});
+    tick(500); // Aguarda o debounce
 
-    expect(userServiceSpy.setUsername).toHaveBeenCalledWith('octocat');
+    expect(userServiceSpy.setSearchQuery).toHaveBeenCalledWith('octocat');
+  }));
+
+  it('should clean up observables on destroy', () => {
+    const destroySpy = spyOn(component['destroy$'], 'next').and.callThrough();
+    const completeSpy = spyOn(component['destroy$'], 'complete').and.callThrough();
+
+    component.ngOnDestroy();
+
+    expect(destroySpy).toHaveBeenCalled();
+    expect(completeSpy).toHaveBeenCalled();
   });
 
 
-  it('should fetch search results from GithubService', fakeAsync(() => {
-    const mockUsers = {
-      total_count: 1,
-      incomplete_results: false,
-      items: [{ login: 'octocat', avatar_url: 'https://avatars.githubusercontent.com/u/1?v=4' }]
-    };
-
-    githubServiceSpy.searchUsers.and.returnValue(of(mockUsers));
-
-    component.onSearchChange('octo');
-    tick(500);
-    fixture.detectChanges();
-
-    expect(githubServiceSpy.searchUsers).toHaveBeenCalledWith('octo');
-  }));
-
-  it('should not search if input length is less than 3 characters', fakeAsync(() => {
-    component.onSearchChange('oc');
-    tick(500);
-    fixture.detectChanges();
-
-    expect(githubServiceSpy.searchUsers).not.toHaveBeenCalled();
-  }));
-
-  it('should call setUsername when selecting an option', () => {
-    component.selectUser('octocat');
-    expect(userServiceSpy.setUsername).toHaveBeenCalledWith('octocat');
-  });
 });

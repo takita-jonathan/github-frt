@@ -14,7 +14,7 @@ export class NotificationService {
     this.snackBar.openFromComponent(NotificationComponent, {
       duration,
       data: { message, type },
-      panelClass: [`snackbar--${type}`],
+      panelClass: [`notification--${type}`],
       horizontalPosition: 'center',
       verticalPosition: 'bottom'
     });

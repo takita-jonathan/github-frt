@@ -1,20 +1,46 @@
-.user-profile {
+.user-card {
   width: 100%;
   max-width: 400px;
-  margin: 20px auto;
   cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 
-  .user-profile__avatar {
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+
+  &__title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__avatar {
     width: 80px;
     height: 80px;
     border-radius: 50%;
     border: 2px solid #ddd;
   }
 
-  mat-card-title {
+  &__title {
     word-break: break-word;
     overflow-wrap: break-word;
     white-space: normal;
     max-width: 100%;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__icon {
+    font-size: 20px;
+    vertical-align: middle;
   }
 }

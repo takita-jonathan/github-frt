@@ -1,0 +1,25 @@
+<mat-card class="repo-card" (click)="openRepo(repo.html_url)">
+  <mat-card-header class="repo-card__header">
+    <mat-card-title class="repo-card__title">{{ repo.name }}</mat-card-title>
+    <mat-card-subtitle class="repo-card__subtitle">
+      Main Language: {{ repo.language || 'Linguagem não especificada' }}
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="repo-card__content">
+    <p class="repo-card__description">
+      {{ repo.description || 'Sem descrição disponível.' }}
+    </p>
+    <div *ngIf="repo.fork" class="repo-card__forked-status">
+      <mat-icon>fork_right</mat-icon>
+      <span>Forked</span>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions class="repo-card__actions">
+    <span class="repo-card__stars">
+      <mat-icon class="repo-card__icon">star</mat-icon>
+      {{ repo.stargazers_count }}
+    </span>
+  </mat-card-actions>
+</mat-card>

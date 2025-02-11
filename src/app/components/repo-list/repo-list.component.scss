@@ -1,0 +1,33 @@
+.user-repositories {
+  &__controls {
+    padding: 16px;
+
+    .user-repositories__sort,
+    .user-repositories__order {
+      margin-right: 16px;
+    }
+  }
+
+  &__list {
+    min-width: 300px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    padding: 16px;
+  }
+
+  &__message {
+    font-size: 1rem;
+    color: #666;
+    text-align: center;
+    padding: 16px;
+  }
+
+  &__paginator {
+    width: 100%;
+    align-self: center;
+    margin-top: auto;
+    height: 64px;
+  }
+
+}

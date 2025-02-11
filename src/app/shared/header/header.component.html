@@ -1,8 +1,8 @@
-<mat-toolbar>
-  <span class="header__logo" (click)="redirectMain()">GitHub Finder</span>
-  <span class="spacer"></span>
-  <mat-form-field appearance="outline">
+<mat-toolbar class="header">
+  <span class="header__logo" [routerLink]="['/']">GitHub Finder</span>
+  <span class="header__spacer"></span>
+  <mat-form-field class="header__search" appearance="outline">
     <mat-label>Buscar usuário</mat-label>
-    <input matInput [(ngModel)]="username" (ngModelChange)="onSearchChange($event)"/>
+    <input matInput [(ngModel)]="username" (ngModelChange)="onSearchChange($event)" />
   </mat-form-field>
 </mat-toolbar>

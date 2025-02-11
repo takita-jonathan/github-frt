@@ -1,21 +1,37 @@
-<div class="user-profile__container" *ngIf="user$ | async as user">
+<div class="user-profile" *ngIf="user$ | async as user">
 
-  <!-- Seção principal: Avatar e informações -->
-  <mat-card class="user-profile__header">
-    <div class="user-profile__info">
-      <img [src]="user.avatar_url" [alt]="user.login" class="user-profile__avatar" />
-      <div class="user-profile__details">
-        <h1>{{ user.name || user.login }}</h1>
-        <h2>{{ user.login }}</h2>
-        <p class="user-profile__bio">{{ user.bio || 'Este usuário ainda não adicionou uma biografia.' }}</p>
+  <div class="user-profile__wrapper">
+    <mat-card class="user-profile__header">
+      <div class="user-profile__info">
+        <img [src]="user.avatar_url" [alt]="user.login" class="user-profile__avatar" />
+        <div class="user-profile__details">
+          <h1 class="user-profile__name">{{ user.name || user.login }}</h1>
+          <h2 class="user-profile__username">{{ user.login }}</h2>
+          <p class="user-profile__bio">{{ user.bio || 'Este usuário ainda não adicionou uma biografia.' }}</p>
 
-        <div class="user-profile__stats">
-          <span>👥 {{ user.followers }} seguidores</span>
-          <span>📍 {{ user.location || 'Localização não informada' }}</span>
+          <div class="user-profile__stats">
+            <span class="user-profile__stat user-profile__stat--followers">
+              <mat-icon class="user-profile__icon">groups</mat-icon>
+              {{ user.followers }} seguidores
+            </span>
+            <span class="user-profile__stat">
+              <mat-icon class="user-profile__icon user-profile__stat--following">person_add</mat-icon>
+              {{ user.following }} seguindo
+            </span>
+            <span class="user-profile__stat user-profile__stat--location">
+              <mat-icon class="user-profile__icon">location_on</mat-icon>
+              {{ user.location || 'Localização não informada' }}
+            </span>
+          </div>
         </div>
       </div>
-    </div>
+    </mat-card>
 
-  </mat-card>
+    <mat-tab-group class="user-profile__tabs">
+      <mat-tab label="Repositórios" [routerLink]="['/user', user.login, 'repositories']"></mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <router-outlet></router-outlet>
 
 </div>

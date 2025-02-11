@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -9,7 +9,7 @@ import {UserService} from '../../services/user.service';
 import {debounceTime, distinctUntilChanged, Subject, takeUntil} from 'rxjs';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {CommonModule} from '@angular/common';
-import {Router} from '@angular/router';
+import {Router, RouterModule} from '@angular/router';
 
 @Component({
   selector: 'ghf-header',
@@ -22,12 +22,12 @@ import {Router} from '@angular/router';
     MatIconModule,
     MatButtonModule,
     MatAutocompleteModule,
-
+    RouterModule,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent implements OnDestroy{
+export class HeaderComponent implements OnInit, OnDestroy {
   username: string = '';
   private searchSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
@@ -35,14 +35,16 @@ export class HeaderComponent implements OnDestroy{
   constructor(
     private userService: UserService,
     private router: Router
-  ) {
+  ) { }
+
+  ngOnInit() {
     this.searchSubject.pipe(
       debounceTime(500),
       distinctUntilChanged(),
       takeUntil(this.destroy$)
     ).subscribe(query => {
       if (this.router.url !== '/') {
-        this.redirectMain();
+        this.router.navigate(['/']).then();
       }
 
       this.userService.setSearchQuery(query);
@@ -50,11 +52,9 @@ export class HeaderComponent implements OnDestroy{
   }
 
   onSearchChange(value: string) {
-    this.searchSubject.next(value);
-  }
-
-  redirectMain(){
-    this.router.navigate(['/']).then();
+    if (value.trim()) {
+      this.searchSubject.next(value);
+    }
   }
 
   ngOnDestroy() {

@@ -1,0 +1,42 @@
+<div class="user-repositories" *ngIf="repositories$ | async as repositories">
+
+  <div *ngIf="repositories.length; else noRepos">
+    <div class="user-repositories__controls">
+      <mat-button-toggle-group class="user-repositories__sort" [(ngModel)]="sort" (change)="onSortingChange()">
+        <mat-button-toggle class="user-repositories__sort-option" value="stars">
+          Ordenar por Estrelas
+        </mat-button-toggle>
+        <mat-button-toggle class="user-repositories__sort-option" value="name">
+          Ordenar por Nome
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <mat-button-toggle-group class="user-repositories__order" [(ngModel)]="order" (change)="onSortingChange()">
+        <mat-button-toggle class="user-repositories__order-option" value="desc">
+          Decrescente
+        </mat-button-toggle>
+        <mat-button-toggle class="user-repositories__order-option" value="asc">
+          Crescente
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <div class="user-repositories__list">
+      <ghf-repo-list-item *ngFor="let repo of repositories" [repo]="repo"></ghf-repo-list-item>
+    </div>
+
+    <mat-paginator
+      class="user-repositories__paginator"
+      *ngIf="repositories && repositories.length > 0"
+      [length]="totalRepos"
+      [pageSize]="10"
+      [pageSizeOptions]="[10, 25, 50, 100]"
+      (page)="onPageChange($event)">
+    </mat-paginator>
+  </div>
+
+  <ng-template #noRepos>
+    <p class="user-repositories__message">Este usuário não possui repositórios públicos.</p>
+  </ng-template>
+
+</div>

@@ -1,0 +1,71 @@
+.repo-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  border-radius: 8px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  &__subtitle {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  &__content {
+    flex-grow: 1;
+  }
+
+  &__description {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.4;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 8px;
+  }
+
+  &__stars {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: bold;
+    color: #555;
+  }
+
+  &__icon {
+    font-size: 18px;
+    color: gold;
+  }
+
+  &__forked-status {
+    display: flex;
+    align-items: center;
+    color: #888;
+    font-size: 14px;
+  }
+
+  &__forked-status mat-icon {
+    font-size: 22px;
+  }
+}

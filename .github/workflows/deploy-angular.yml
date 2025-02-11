@@ -10,21 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do código
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Instalar Node.js
+      - name: Node.js Install
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      - name: Instalar dependências
+      - name: Dependencies install
         run: npm install
 
-      - name: Build do projeto Angular
+      - name: Run unit tests
+        run: npm test
+
+      - name: Build angular project
         run: npm run build -- --base-href="/${{ github.event.repository.name }}/"
 
-      - name: Deploy para GitHub Pages
+      - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages

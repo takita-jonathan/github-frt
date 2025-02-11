@@ -1,4 +1,4 @@
-.loading-overlay {
+.loading {
   position: fixed;
   top: 0;
   left: 0;
@@ -9,4 +9,5 @@
   justify-content: center;
   background: rgba(0, 0, 0, 0.5);
   z-index: 9999;
+
 }
