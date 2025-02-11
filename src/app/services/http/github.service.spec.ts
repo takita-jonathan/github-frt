@@ -10,9 +10,7 @@ describe('GithubService', () => {
   let httpMock: HttpTestingController;
   let loadingService: jasmine.SpyObj<LoadingService>;
 
-
   const API_URL = 'https://api.github.com';
-
 
   beforeEach(() => {
     loadingService = jasmine.createSpyObj('LoadingService', ['show', 'hide']);
