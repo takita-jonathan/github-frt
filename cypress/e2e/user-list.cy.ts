@@ -6,6 +6,7 @@ describe('User Listing Navigation Flows', () => {
   const ONE_SECOND = 1000;
 
   beforeEach(() => {
+    cy.mockGithubRequests();
     cy.visit('/');
     cy.wait(ONE_SECOND);
   })

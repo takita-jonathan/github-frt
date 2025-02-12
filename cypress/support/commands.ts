@@ -41,3 +41,14 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('mockGithubRequests', () => {
+  cy.intercept('GET', '**/search/users?q=repos%3A%3E%3D0&page=1&per_page=10', { fixture: 'page1-res.json' }).as('mockPage1');
+  cy.intercept('GET', '**/search/users?q=repos%3A%3E%3D0&page=2&per_page=10', { fixture: 'page2-res.json' }).as('mockPage2');
+  cy.intercept('GET', '**/search/users?q=repos%3A%3E%3D0&page=1&per_page=25', { fixture: 'page1-25e-res.json' }).as('mockPage1with25ele');
+  cy.intercept('GET', '**/search/users?q=takita-jonathan&page=1&per_page=10', { fixture: 'takita-jonathan-search-res.json' }).as('mockSearchTakitaJonathan');
+  cy.intercept('GET', '**/search/users?q=torvalds&page=1&per_page=10', { fixture: 'torvalds-search-res.json' }).as('mockSearchTorvalds');
+  cy.intercept('GET', '**/search/repositories?q=user:torvalds+fork:true&sort=stars&order=desc&page=1&per_page=10', { fixture: 'torvalds-repo-stars-desc.json' }).as('mockRepoStarsDesc');
+  cy.intercept('GET', '**/search/repositories?q=user:torvalds+fork:true&sort=name&order=desc&page=1&per_page=10', { fixture: 'torvalds-repo-name-desc.json' }).as('mockRepoNameDesc');
+  cy.intercept('GET', '**/search/repositories?q=user:torvalds+fork:true&sort=name&order=asc&page=1&per_page=10', { fixture: 'torvalds-repo-name-asc.json' }).as('mockRepoNameAsc');
+});

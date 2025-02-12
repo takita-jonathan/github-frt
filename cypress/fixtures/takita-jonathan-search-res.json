@@ -1,0 +1,28 @@
+{
+  "total_count": 1,
+  "incomplete_results": false,
+  "items": [
+    {
+      "login": "takita-jonathan",
+      "id": 21249661,
+      "node_id": "MDQ6VXNlcjIxMjQ5NjYx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/21249661?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/takita-jonathan",
+      "html_url": "https://github.com/takita-jonathan",
+      "followers_url": "https://api.github.com/users/takita-jonathan/followers",
+      "following_url": "https://api.github.com/users/takita-jonathan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/takita-jonathan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/takita-jonathan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/takita-jonathan/subscriptions",
+      "organizations_url": "https://api.github.com/users/takita-jonathan/orgs",
+      "repos_url": "https://api.github.com/users/takita-jonathan/repos",
+      "events_url": "https://api.github.com/users/takita-jonathan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/takita-jonathan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false,
+      "score": 1.0
+    }
+  ]
+}

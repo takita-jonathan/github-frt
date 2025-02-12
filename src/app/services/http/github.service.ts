@@ -6,18 +6,24 @@ import {LoadingService} from '../../shared/loading/loading.service';
 import {IGithubSearchRes} from '../../interfaces/github-search-res.interface';
 import {IGithubRepo} from '../../interfaces/github-repo.interface';
 import {CacheService} from '../cache/cache.service';
+import {ConfigService} from '../config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GithubService {
-  private readonly API_URL = 'https://api.github.com';
+  private readonly API_URL: string;
+  private readonly GITHUB_TOKEN: string;
 
   constructor(
     private http: HttpClient,
     private loadingService: LoadingService,
-    private cacheService: CacheService
-  ) { }
+    private cacheService: CacheService,
+    private config: ConfigService,
+  ) {
+    this.API_URL = this.config.getConfig().API_URL;
+    this.GITHUB_TOKEN = this.config.getConfig().GITHUB_TOKEN;
+  }
 
   getUser(username: string): Observable<IGithubUser> {
     this.loadingService.show();
@@ -31,6 +37,7 @@ export class GithubService {
           } else {
             return this.http.get<IGithubUser>(
               `${this.API_URL}/users/${username}`,
+              { headers: { Authorization: `token ${this.GITHUB_TOKEN}` }}
             ).pipe(
               tap(user => this.cacheService.storeData(cacheKey, user))
             )
@@ -42,7 +49,7 @@ export class GithubService {
 
   searchUsers(query: string = '', page: number = 1, perPage: number = 10): Observable<IGithubSearchRes<IGithubUser>> {
     this.loadingService.show();
-    const searchQuery = query.trim() ? query : 'repos:>=0';
+    const searchQuery = query.trim() ? encodeURIComponent(query) : encodeURIComponent('repos:>=0');
     const cacheKey = `search_${searchQuery}_${page}_${perPage}`;
 
     return this.cacheService.getData<IGithubSearchRes<IGithubUser>>(cacheKey)
@@ -53,6 +60,7 @@ export class GithubService {
           } else {
             return this.http.get<IGithubSearchRes<IGithubUser>>(
               `${this.API_URL}/search/users?q=${searchQuery}&page=${page}&per_page=${perPage}`,
+              { headers: { Authorization: `token ${this.GITHUB_TOKEN}` }}
             ).pipe(
               tap(searchRes => this.cacheService.storeData(cacheKey, searchRes))
             )
@@ -74,6 +82,7 @@ export class GithubService {
           } else {
             return this.http.get<IGithubSearchRes<IGithubRepo>>(
               `${this.API_URL}/search/repositories?q=user:${username}+fork:true&sort=${sort}&order=${direction}&page=${page}&per_page=${perPage}`,
+              { headers: { Authorization: `token ${this.GITHUB_TOKEN}` }}
             ).pipe(
               tap(searchRes => this.cacheService.storeData(cacheKey, searchRes))
             )

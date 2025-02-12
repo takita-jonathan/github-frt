@@ -6,20 +6,24 @@ import {provideHttpClient} from '@angular/common/http';
 import {LoadingService} from '../../shared/loading/loading.service';
 import {CacheService} from '../cache/cache.service';
 import {of} from 'rxjs';
+import {ConfigService} from '../config.service';
 
 describe('GithubService', () => {
   let service: GithubService;
   let httpMock: HttpTestingController;
   let loadingService: jasmine.SpyObj<LoadingService>;
   let cacheServiceMock: jasmine.SpyObj<CacheService>;
+  let configServiceMock: jasmine.SpyObj<ConfigService>;
 
   const API_URL = 'https://api.github.com';
-  const mockUser = { login: 'octocat', name: 'The Octocat', avatar_url: 'https://avatars.githubusercontent.com/u/583231?v=4' };
-  const mockSearchResponse = { total_count: 1, items: [{ login: 'octocat' }] };
+  const GITHUB_TOKEN = 'fake-token';
 
   beforeEach(() => {
     loadingService = jasmine.createSpyObj('LoadingService', ['show', 'hide']);
     cacheServiceMock = jasmine.createSpyObj('CacheService', ['getData', 'storeData']);
+    configServiceMock = jasmine.createSpyObj('ConfigService', ['getConfig']);
+    configServiceMock.getConfig.and.returnValue({ API_URL, GITHUB_TOKEN });
+
 
     TestBed.configureTestingModule({
       providers: [
@@ -27,7 +31,8 @@ describe('GithubService', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         { provide: LoadingService, useValue: loadingService },
-        { provide: CacheService, useValue: cacheServiceMock }
+        { provide: CacheService, useValue: cacheServiceMock },
+        { provide: ConfigService, useValue: configServiceMock },
       ]
     });
 

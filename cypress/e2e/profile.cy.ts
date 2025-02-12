@@ -8,7 +8,10 @@ describe('Profile Navigation Flows', () => {
   const profileName = 'torvalds';
 
   beforeEach(() => {
+    cy.mockGithubRequests();
     cy.visit('/');
+    cy.wait(ONE_SECOND);
+    HeaderPage.searchUser(profileName);
     cy.wait(ONE_SECOND);
     UserListPage.getUserCards().contains(profileName).click();
     cy.wait(ONE_SECOND);

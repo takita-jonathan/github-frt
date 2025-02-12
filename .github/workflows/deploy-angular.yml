@@ -51,6 +51,13 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
+      - name: Generate config.json
+        run: |
+          echo '{
+            "API_URL": "${{ vars.API_URL }}",
+            "GITHUB_TOKEN": "${{ secrets.GH_ACCESS_TOKEN }}"
+          }' > src/assets/config.json
+
       - name: Install Cypress Binary
         run: npx cypress install --force
 
@@ -125,6 +132,13 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
+      - name: Generate config.json
+        run: |
+          echo '{
+            "API_URL": "${{ vars.API_URL }}",
+            "GITHUB_TOKEN": "${{ secrets.GH_ACCESS_TOKEN }}"
+          }' > src/assets/config.json
+
       - name: Build angular project
         run: npm run build -- --base-href="/"
 
@@ -152,11 +166,11 @@ jobs:
         run: echo "WEBSITE_URL=$(jq -r '.website_url.value' ./infra/terraform-output.json)" >> $GITHUB_ENV
 
       - name: Show Website URL
-        run: echo "::notice title=Deploy URL::$WEBSITE_URL"
+        run: echo "::notice title=Deploy URL::http://$WEBSITE_URL"
 
       - name: Show Website URL in Job Summary
         run: |
           echo "## ✅ Application Deployed Successfully 🚀" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**🔗 Website:** [Github FRT]($WEBSITE_URL)" >> $GITHUB_STEP_SUMMARY
+          echo "**🔗 Website:** [Github FRT](http://$WEBSITE_URL)" >> $GITHUB_STEP_SUMMARY
 
