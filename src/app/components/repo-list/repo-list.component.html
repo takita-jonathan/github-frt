@@ -3,30 +3,31 @@
   <div class="user-repositories__wrapper" *ngIf="repositories.length; else noRepos">
     <div class="user-repositories__controls">
       <mat-button-toggle-group class="user-repositories__sort" [(ngModel)]="sort" (change)="onSortingChange()">
-        <mat-button-toggle class="user-repositories__sort-option" value="stars">
+        <mat-button-toggle class="user-repositories__sort-option" data-testid="user-repositories__sort-option--stars" value="stars">
           Ordenar por Estrelas
         </mat-button-toggle>
-        <mat-button-toggle class="user-repositories__sort-option" value="name">
+        <mat-button-toggle class="user-repositories__sort-option" data-testid="user-repositories__sort-option--name" value="name">
           Ordenar por Nome
         </mat-button-toggle>
       </mat-button-toggle-group>
 
       <mat-button-toggle-group class="user-repositories__order" [(ngModel)]="order" (change)="onSortingChange()">
-        <mat-button-toggle class="user-repositories__order-option" value="desc">
+        <mat-button-toggle class="user-repositories__order-option" data-testid="user-repositories__order-option--desc" value="desc">
           Decrescente
         </mat-button-toggle>
-        <mat-button-toggle class="user-repositories__order-option" value="asc">
+        <mat-button-toggle class="user-repositories__order-option" data-testid="user-repositories__order-option--asc" value="asc">
           Crescente
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
 
-    <div class="user-repositories__list">
+    <div class="user-repositories__list" data-testid="user-repositories__list">
       <ghf-repo-list-item *ngFor="let repo of repositories" [repo]="repo"></ghf-repo-list-item>
     </div>
 
     <mat-paginator
       class="user-repositories__paginator"
+      data-testid="user-repositories__paginator"
       *ngIf="repositories && repositories.length > 0"
       [length]="totalRepos"
       [pageSize]="10"

@@ -1,4 +1,4 @@
-<mat-card class="user-card" [routerLink]="[login]">
+<mat-card class="user-card" data-testid="user-card" [routerLink]="[login]">
   <mat-card-header class="user-card__header">
     <mat-card-title-group class="user-card__title-group">
       <img [src]="avatar_url" [alt]="login" class="user-card__avatar" />
@@ -7,7 +7,7 @@
   </mat-card-header>
 
   <mat-card-actions class="user-card__actions" align="end">
-    <a mat-button color="primary" [href]="'https://github.com/' + login" target="_blank">
+    <a data-testid="user-card__icon" mat-button color="primary" [href]="'https://github.com/' + login" target="_blank">
       <mat-icon class="user-card__icon">open_in_new</mat-icon> Ver no GitHub
     </a>
   </mat-card-actions>

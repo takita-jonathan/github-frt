@@ -2,7 +2,7 @@
 
   <div class="user-profile__wrapper">
     <mat-card class="user-profile__header">
-      <div class="user-profile__info">
+      <div class="user-profile__info" data-testid="user-profile__info">
         <img [src]="user.avatar_url" [alt]="user.login" class="user-profile__avatar" />
         <div class="user-profile__details">
           <h1 class="user-profile__name">{{ user.name || user.login }}</h1>
@@ -27,7 +27,7 @@
       </div>
     </mat-card>
 
-    <mat-tab-group class="user-profile__tabs">
+    <mat-tab-group class="user-profile__tabs" data-testid="user-profile__tabs">
       <mat-tab label="Repositórios" [routerLink]="['/user', user.login, 'repositories']"></mat-tab>
     </mat-tab-group>
   </div>
