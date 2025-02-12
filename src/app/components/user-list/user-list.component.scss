@@ -17,6 +17,11 @@
     align-self: center;
     margin-top: auto;
     height: 64px;
+
+    @media (max-width: 600px) {
+      height: auto;
+      padding: 8px 0;
+    }
   }
 
   &__message {
