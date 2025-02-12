@@ -42,7 +42,7 @@ export class GithubService {
 
   searchUsers(query: string = '', page: number = 1, perPage: number = 10): Observable<IGithubSearchRes<IGithubUser>> {
     this.loadingService.show();
-    const searchQuery = query.trim() ? query : 'repos:>0';
+    const searchQuery = query.trim() ? query : 'repos:>=0';
     const cacheKey = `search_${searchQuery}_${page}_${perPage}`;
 
     return this.cacheService.getData<IGithubSearchRes<IGithubUser>>(cacheKey)
