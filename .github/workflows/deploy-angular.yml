@@ -147,3 +147,16 @@ jobs:
       - name: Deploy to S3
         run: |
           aws s3 sync dist/${{ github.event.repository.name }}/browser s3://$BUCKET_NAME --delete --acl public-read
+
+      - name: Extract Website URL
+        run: echo "WEBSITE_URL=$(jq -r '.website_url.value' ./infra/terraform-output.json)" >> $GITHUB_ENV
+
+      - name: Show Website URL
+        run: echo "::notice title=Deploy URL::$WEBSITE_URL"
+
+      - name: Show Website URL in Job Summary
+        run: |
+          echo "## ✅ Application Deployed Successfully 🚀" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**🔗 Website:** [Github FRT]($WEBSITE_URL)" >> $GITHUB_STEP_SUMMARY
+
